@@ -5,13 +5,21 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, maximum-scale=1.0, user-scalable=no">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="default">
-<meta name="theme-color" content="#f2f2f7">
+<meta name="apple-mobile-web-app-title" content="카미코치">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="theme-color" content="#ffffff">
 <title>上高地日帰りツアー</title>
+<link rel="manifest" href="manifest.json">
+<link rel="icon" type="image/svg+xml" href="icons/icon.svg">
+<link rel="icon" type="image/png" sizes="32x32" href="icons/favicon-32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="icons/favicon-16.png">
+<link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
 <style>
   @import url('https://fonts.cdnfonts.com/css/gilroy-bold');
 
   :root{
     --bg:#f2f2f7;
+    --topbar:#ffffff;
     --card:#ffffff;
     --sep:rgba(60,60,67,0.14);
     --sep-strong:rgba(60,60,67,0.29);
@@ -49,7 +57,7 @@
   /* ---------- Header ---------- */
   header{
     padding:calc(env(safe-area-inset-top) + 18px) 20px 14px;
-    background:var(--bg);
+    background:var(--topbar);
     border-bottom:0.5px solid var(--sep);
   }
   .kicker{
@@ -122,7 +130,9 @@
 
   /* timeline rows */
   .tl .row .ic{color:var(--secondary);}
-  .step{font-family:var(--gilroy),var(--jp);font-weight:700;font-size:11px;color:var(--secondary);width:26px;text-align:center;flex:none;letter-spacing:0.02em;}
+  .step{font-family:var(--gilroy),var(--jp);font-weight:700;font-size:11.5px;color:var(--label);width:42px;text-align:center;flex:none;letter-spacing:0.02em;white-space:nowrap;}
+  .step.time{display:flex;flex-direction:column;align-items:center;line-height:1;gap:2px;font-variant-numeric:tabular-nums;}
+  .step.time b,.step.time small{font-size:11.5px;font-weight:700;color:var(--label);}
 
   /* ---------- Checklist ---------- */
   .chk{display:flex;align-items:center;gap:13px;padding:13px 16px;position:relative;cursor:pointer;min-height:50px;user-select:none;}
@@ -214,9 +224,9 @@
 
       <p class="grouphead">가는 길 · 택시</p>
       <div class="list tl">
-        <div class="row"><span class="step">05:55</span><span class="tx"><div class="tt">아자부주반 호텔 출발</div><div class="sb">앱택시(GO 등) 호출 또는 큰길에서 승차</div></span></div>
+        <div class="row"><span class="step time"><b>05</b><small>55</small></span><span class="tx"><div class="tt">아자부주반 호텔 출발</div><div class="sb">앱택시(GO 등) 호출 또는 큰길에서 승차</div></span></div>
         <div class="row"><span class="step">~20′</span><span class="tx"><div class="tt">택시 15~20분 · 약 ¥2,500~3,000</div><div class="sb">새벽이라 길이 비어 빠릅니다</div></span></div>
-        <div class="row"><span class="step">06:15</span><span class="tx"><div class="tt">코쿤타워 앞 도착</div><div class="sb">집합(6:35)보다 15분 이상 여유</div></span></div>
+        <div class="row"><span class="step time"><b>06</b><small>15</small></span><span class="tx"><div class="tt">코쿤타워 앞 도착</div><div class="sb">집합(6:35)보다 15분 이상 여유</div></span></div>
         <a class="row" href="https://www.google.com/maps/dir/?api=1&origin=麻布十番&destination=モード学園コクーンタワー&travelmode=driving" target="_blank" rel="noopener">
           <span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M5 11l1.5-4.5A2 2 0 0 1 8.4 5h7.2a2 2 0 0 1 1.9 1.5L19 11m-14 0h14m-14 0v6m14-6v6M7 17v2m10-2v2M7.5 14h1m7 0h1"/></svg></span>
           <span class="tx"><div class="tt">택시 경로 지도</div><div class="sb">麻布十番 → コクーンタワー</div></span>
@@ -226,8 +236,8 @@
 
       <p class="grouphead">돌아오는 길 · 전철</p>
       <div class="list tl">
-        <div class="row"><span class="step">15:xx</span><span class="tx"><div class="tt">가미코치 출발 (버스)</div><div class="sb">복귀 집합시각은 현지에서 첨승원이 안내</div></span></div>
-        <div class="row"><span class="step">~21:00</span><span class="tx"><div class="tt">신주쿠 도착 (예상)</div><div class="sb">하차 위치도 첨승원 안내 (코쿤타워/신주쿠역 부근)</div></span></div>
+        <div class="row"><span class="step time"><b>15</b><small>??</small></span><span class="tx"><div class="tt">가미코치 출발 (버스)</div><div class="sb">복귀 집합시각은 현지에서 첨승원이 안내</div></span></div>
+        <div class="row"><span class="step time"><b>~21</b><small>00</small></span><span class="tx"><div class="tt">신주쿠 도착 (예상)</div><div class="sb">하차 위치도 첨승원 안내 (코쿤타워/신주쿠역 부근)</div></span></div>
         <a class="row" href="https://www.google.com/maps/dir/?api=1&origin=新宿駅&destination=麻布十番駅&travelmode=transit" target="_blank" rel="noopener">
           <span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><rect x="6" y="3" width="12" height="13" rx="2.5"/><path d="M6 11h12M9.5 20l-1.5 2M14.5 20l1.5 2"/><circle cx="9" cy="13.5" r="0.6" fill="currentColor"/><circle cx="15" cy="13.5" r="0.6" fill="currentColor"/></svg></span>
           <span class="tx"><div class="tt">전철 경로 지도</div><div class="sb">오에도선 新宿 → 麻布十番 (약 13분)</div></span>
@@ -281,17 +291,17 @@
       <p class="grouphead">맛집 · 먹거리</p>
       <div class="list">
         <a class="row" href="https://www.google.com/maps/search/?api=1&query=嘉門次小屋%20上高地" target="_blank" rel="noopener">
-          <span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M6 3v8a2 2 0 0 0 2 2h0v8M8 3v6M6 3v6M18 3c-1.5 0-2.5 2-2.5 5s1 4 2.5 4v9"/></svg></span>
+          <span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M4 3v7c0 1.1.9 2 2 2h4a2 2 0 0 0 2-2V3"/><path d="M8 3v18"/><path d="M19 3v18"/><path d="M19 3c-3 .5-5 3-5 6c0 3 2 5.5 5 6"/></svg></span>
           <span class="tx"><div class="tt">가몬지 고야 (嘉門次小屋)</div><div class="sb">묘진 · 이와나 숯불구이 정식</div></span>
           <span class="chev"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M6 3l5 5-5 5"/></svg></span>
         </a>
         <a class="row" href="https://www.google.com/maps/search/?api=1&query=上高地食堂" target="_blank" rel="noopener">
-          <span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M6 3v8a2 2 0 0 0 2 2h0v8M8 3v6M6 3v6M18 3c-1.5 0-2.5 2-2.5 5s1 4 2.5 4v9"/></svg></span>
+          <span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M4 3v7c0 1.1.9 2 2 2h4a2 2 0 0 0 2-2V3"/><path d="M8 3v18"/><path d="M19 3v18"/><path d="M19 3c-3 .5-5 3-5 6c0 3 2 5.5 5 6"/></svg></span>
           <span class="tx"><div class="tt">가미코치 식당 (上高地食堂)</div><div class="sb">버스터미널 · 경식·카레·소바</div></span>
           <span class="chev"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M6 3l5 5-5 5"/></svg></span>
         </a>
         <a class="row" href="https://www.google.com/maps/search/?api=1&query=五千尺キッチン%20上高地" target="_blank" rel="noopener">
-          <span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M6 3v8a2 2 0 0 0 2 2h0v8M8 3v6M6 3v6M18 3c-1.5 0-2.5 2-2.5 5s1 4 2.5 4v9"/></svg></span>
+          <span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M4 3v7c0 1.1.9 2 2 2h4a2 2 0 0 0 2-2V3"/><path d="M8 3v18"/><path d="M19 3v18"/><path d="M19 3c-3 .5-5 3-5 6c0 3 2 5.5 5 6"/></svg></span>
           <span class="tx"><div class="tt">고센자쿠 키친 (五千尺キッチン)</div><div class="sb">갓파바시 · 경양식·디저트·커피</div></span>
           <span class="chev"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M6 3l5 5-5 5"/></svg></span>
         </a>
