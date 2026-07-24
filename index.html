@@ -1,0 +1,429 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, maximum-scale=1.0, user-scalable=no">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="theme-color" content="#f2f2f7">
+<title>上高地日帰りツアー</title>
+<style>
+  @import url('https://fonts.cdnfonts.com/css/gilroy-bold');
+
+  :root{
+    --bg:#f2f2f7;
+    --card:#ffffff;
+    --sep:rgba(60,60,67,0.14);
+    --sep-strong:rgba(60,60,67,0.29);
+    --label:#1c1c1e;
+    --secondary:rgba(60,60,67,0.6);
+    --tertiary:rgba(60,60,67,0.32);
+    --fill:rgba(120,120,128,0.12);
+    --ink:#000;
+    --bar:rgba(249,249,249,0.82);
+    --gilroy:'Gilroy',-apple-system,system-ui,sans-serif;
+    --jp:-apple-system,BlinkMacSystemFont,"Hiragino Kaku Gothic ProN","Hiragino Sans","Yu Gothic",system-ui,"Noto Sans KR",sans-serif;
+    --maxw:480px;
+  }
+  *{box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
+  html,body{margin:0;padding:0;height:100%;}
+  body{
+    font-family:var(--jp);
+    background:#e9e9ec;
+    color:var(--label);
+    -webkit-font-smoothing:antialiased;
+    line-height:1.45;
+    letter-spacing:-0.01em;
+  }
+  .app{
+    max-width:var(--maxw);
+    margin:0 auto;
+    min-height:100dvh;
+    background:var(--bg);
+    display:flex;
+    flex-direction:column;
+    position:relative;
+    box-shadow:0 0 60px rgba(0,0,0,0.06);
+  }
+
+  /* ---------- Header ---------- */
+  header{
+    padding:calc(env(safe-area-inset-top) + 18px) 20px 14px;
+    background:var(--bg);
+    border-bottom:0.5px solid var(--sep);
+  }
+  .kicker{
+    font-family:var(--gilroy);
+    font-weight:700;
+    font-size:12px;
+    letter-spacing:0.18em;
+    text-transform:uppercase;
+    color:var(--secondary);
+    margin:0 0 6px;
+  }
+  h1{
+    font-family:var(--gilroy),var(--jp);
+    font-weight:700;
+    font-size:30px;
+    line-height:1.1;
+    letter-spacing:0.01em;
+    margin:0;
+    color:var(--ink);
+  }
+  .ridge{display:block;width:100%;height:18px;margin-top:10px;color:var(--tertiary);}
+
+  /* ---------- Scroll area ---------- */
+  main{flex:1 1 auto;overflow-y:auto;-webkit-overflow-scrolling:touch;padding-bottom:96px;}
+  .panel{display:none;padding:8px 0 8px;}
+  .panel.active{display:block;animation:fade .22s ease;}
+  @keyframes fade{from{opacity:0;transform:translateY(4px);}to{opacity:1;transform:none;}}
+
+  .grouphead{
+    font-size:13px;
+    font-weight:600;
+    color:var(--secondary);
+    text-transform:uppercase;
+    letter-spacing:0.04em;
+    margin:22px 20px 7px;
+  }
+  .note{font-size:12.5px;color:var(--secondary);margin:7px 20px 0;line-height:1.5;}
+  .note.tight{margin-top:5px;}
+
+  /* ---------- Inset grouped list ---------- */
+  .list{
+    background:var(--card);
+    margin:0 16px;
+    border-radius:14px;
+    overflow:hidden;
+  }
+  .row{
+    display:flex;
+    align-items:center;
+    gap:12px;
+    padding:12px 16px;
+    position:relative;
+    min-height:48px;
+    color:var(--label);
+    text-decoration:none;
+  }
+  .row + .row::before{
+    content:"";position:absolute;top:0;left:48px;right:0;height:0.5px;background:var(--sep);
+  }
+  .row .ic{flex:none;width:26px;height:26px;display:flex;align-items:center;justify-content:center;color:var(--ink);}
+  .row .ic svg{width:20px;height:20px;}
+  .row .tx{flex:1 1 auto;min-width:0;}
+  .row .tt{font-size:15.5px;font-weight:500;letter-spacing:-0.01em;}
+  .row .sb{font-size:12.5px;color:var(--secondary);margin-top:2px;line-height:1.45;}
+  .row .rt{flex:none;font-size:14px;color:var(--secondary);font-variant-numeric:tabular-nums;font-weight:500;}
+  a.row{cursor:pointer;}
+  a.row:active{background:var(--fill);}
+  a.row .chev{flex:none;color:var(--tertiary);}
+  a.row .chev svg{width:16px;height:16px;display:block;}
+
+  /* timeline rows */
+  .tl .row .ic{color:var(--secondary);}
+  .step{font-family:var(--gilroy),var(--jp);font-weight:700;font-size:11px;color:var(--secondary);width:26px;text-align:center;flex:none;letter-spacing:0.02em;}
+
+  /* ---------- Checklist ---------- */
+  .chk{display:flex;align-items:center;gap:13px;padding:13px 16px;position:relative;cursor:pointer;min-height:50px;user-select:none;}
+  .chk + .chk::before{content:"";position:absolute;top:0;left:47px;right:0;height:0.5px;background:var(--sep);}
+  .chk:active{background:var(--fill);}
+  .box{
+    flex:none;width:23px;height:23px;border-radius:50%;
+    border:1.8px solid var(--sep-strong);
+    display:flex;align-items:center;justify-content:center;
+    transition:all .18s ease;
+  }
+  .box svg{width:14px;height:14px;color:#fff;opacity:0;transform:scale(.5);transition:all .18s ease;}
+  .chk .lbl{font-size:15.5px;font-weight:500;letter-spacing:-0.01em;transition:color .18s ease;}
+  .chk .lbl .s{display:block;font-size:12px;color:var(--secondary);font-weight:400;margin-top:1px;}
+  .chk.done .box{background:var(--ink);border-color:var(--ink);}
+  .chk.done .box svg{opacity:1;transform:scale(1);}
+  .chk.done .lbl{color:var(--tertiary);text-decoration:line-through;text-decoration-color:var(--tertiary);}
+
+  .resetwrap{display:flex;justify-content:center;padding:26px 20px 8px;}
+  .reset{
+    font-family:var(--jp);font-size:14px;color:var(--secondary);
+    background:var(--card);border:0.5px solid var(--sep);
+    padding:11px 20px;border-radius:12px;font-weight:500;
+  }
+  .reset:active{background:var(--fill);}
+
+  .progress{
+    margin:2px 16px 0;font-size:12.5px;color:var(--secondary);
+    display:flex;align-items:center;gap:8px;
+  }
+  .bar{flex:1;height:4px;border-radius:2px;background:var(--sep);overflow:hidden;}
+  .bar i{display:block;height:100%;width:0;background:var(--ink);transition:width .25s ease;}
+
+  /* ---------- Tab bar ---------- */
+  nav{
+    position:fixed;left:0;right:0;bottom:0;
+    max-width:var(--maxw);margin:0 auto;
+    background:var(--bar);
+    backdrop-filter:saturate(180%) blur(20px);
+    -webkit-backdrop-filter:saturate(180%) blur(20px);
+    border-top:0.5px solid var(--sep-strong);
+    display:flex;
+    padding-bottom:env(safe-area-inset-bottom);
+    z-index:20;
+  }
+  .tab{
+    flex:1;background:none;border:none;
+    padding:8px 0 6px;
+    display:flex;flex-direction:column;align-items:center;gap:3px;
+    color:var(--tertiary);font-family:var(--jp);
+    cursor:pointer;
+  }
+  .tab svg{width:26px;height:26px;}
+  .tab span{font-size:10.5px;font-weight:500;letter-spacing:-0.01em;}
+  .tab.active{color:var(--ink);}
+
+  .footer{font-size:11px;color:var(--tertiary);text-align:center;padding:20px 24px 8px;line-height:1.5;}
+</style>
+</head>
+<body>
+<div class="app">
+
+  <header>
+    <p class="kicker">Kamikochi Day Trip · 07.25 Sat</p>
+    <h1>上高地日帰りツアー</h1>
+    <svg class="ridge" viewBox="0 0 480 18" fill="none" preserveAspectRatio="none" aria-hidden="true">
+      <path d="M0 17 L70 6 L110 12 L165 2 L210 11 L270 4 L330 13 L380 5 L430 12 L480 7"
+            stroke="currentColor" stroke-width="1.2" stroke-linejoin="round" stroke-linecap="round"/>
+    </svg>
+  </header>
+
+  <main>
+    <!-- ============ TAB 1 : 이동 ============ -->
+    <section class="panel active" id="move">
+
+      <p class="grouphead">집합장소</p>
+      <div class="list">
+        <a class="row" href="https://www.google.com/maps/search/?api=1&query=モード学園コクーンタワー" target="_blank" rel="noopener">
+          <span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M12 21s7-5.6 7-11a7 7 0 1 0-14 0c0 5.4 7 11 7 11z"/><circle cx="12" cy="10" r="2.5"/></svg></span>
+          <span class="tx"><div class="tt">新宿西口 コクーンタワー前</div><div class="sb">지하 N3 출구 · HIS 로고 팻말 앞에서 접수</div></span>
+          <span class="chev"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M6 3l5 5-5 5"/></svg></span>
+        </a>
+        <div class="row">
+          <span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg></span>
+          <span class="tx"><div class="tt">집합 6:35 · 출발 6:50</div><div class="sb">정시 출발 · 놓치면 환불 없음</div></span>
+        </div>
+      </div>
+      <p class="note tight">출발 15분 전까지 집합, 화장실은 미리. 접수 후 첨승원 안내에 따라 승차.</p>
+
+      <p class="grouphead">가는 길 · 택시</p>
+      <div class="list tl">
+        <div class="row"><span class="step">05:55</span><span class="tx"><div class="tt">아자부주반 호텔 출발</div><div class="sb">앱택시(GO 등) 호출 또는 큰길에서 승차</div></span></div>
+        <div class="row"><span class="step">~20′</span><span class="tx"><div class="tt">택시 15~20분 · 약 ¥2,500~3,000</div><div class="sb">새벽이라 길이 비어 빠릅니다</div></span></div>
+        <div class="row"><span class="step">06:15</span><span class="tx"><div class="tt">코쿤타워 앞 도착</div><div class="sb">집합(6:35)보다 15분 이상 여유</div></span></div>
+        <a class="row" href="https://www.google.com/maps/dir/?api=1&origin=麻布十番&destination=モード学園コクーンタワー&travelmode=driving" target="_blank" rel="noopener">
+          <span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M5 11l1.5-4.5A2 2 0 0 1 8.4 5h7.2a2 2 0 0 1 1.9 1.5L19 11m-14 0h14m-14 0v6m14-6v6M7 17v2m10-2v2M7.5 14h1m7 0h1"/></svg></span>
+          <span class="tx"><div class="tt">택시 경로 지도</div><div class="sb">麻布十番 → コクーンタワー</div></span>
+          <span class="chev"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M6 3l5 5-5 5"/></svg></span>
+        </a>
+      </div>
+
+      <p class="grouphead">돌아오는 길 · 전철</p>
+      <div class="list tl">
+        <div class="row"><span class="step">15:xx</span><span class="tx"><div class="tt">가미코치 출발 (버스)</div><div class="sb">복귀 집합시각은 현지에서 첨승원이 안내</div></span></div>
+        <div class="row"><span class="step">~21:00</span><span class="tx"><div class="tt">신주쿠 도착 (예상)</div><div class="sb">하차 위치도 첨승원 안내 (코쿤타워/신주쿠역 부근)</div></span></div>
+        <a class="row" href="https://www.google.com/maps/dir/?api=1&origin=新宿駅&destination=麻布十番駅&travelmode=transit" target="_blank" rel="noopener">
+          <span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><rect x="6" y="3" width="12" height="13" rx="2.5"/><path d="M6 11h12M9.5 20l-1.5 2M14.5 20l1.5 2"/><circle cx="9" cy="13.5" r="0.6" fill="currentColor"/><circle cx="15" cy="13.5" r="0.6" fill="currentColor"/></svg></span>
+          <span class="tx"><div class="tt">전철 경로 지도</div><div class="sb">오에도선 新宿 → 麻布十番 (약 13분)</div></span>
+          <span class="chev"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M6 3l5 5-5 5"/></svg></span>
+        </a>
+      </div>
+      <p class="note tight">저녁 8~9시대라 막차 걱정 없이 오에도선 한 번에 귀가.</p>
+    </section>
+
+    <!-- ============ TAB 2 : 가미코치 ============ -->
+    <section class="panel" id="kamikochi">
+
+      <p class="grouphead">도착 직후</p>
+      <div class="list">
+        <div class="row">
+          <span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M4 7h16M4 12h16M4 17h10"/></svg></span>
+          <span class="tx"><div class="tt">① 복귀 집합 장소·시각 확인</div><div class="sb">가장 먼저 · 화장실 · 매점서 물·먹거리</div></span>
+        </div>
+        <div class="row">
+          <span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><circle cx="12" cy="12" r="9"/><path d="M12 8v4l3 2"/></svg></span>
+          <span class="tx"><div class="tt">도착 예상 11:30~12:00</div><div class="sb">정확한 시각은 버스에서 확인</div></span>
+        </div>
+      </div>
+
+      <p class="grouphead">산책 동선</p>
+      <div class="list tl">
+        <a class="row" href="https://www.google.com/maps/search/?api=1&query=上高地バスターミナル" target="_blank" rel="noopener">
+          <span class="step">START</span>
+          <span class="tx"><div class="tt">가미코치 버스터미널</div><div class="sb">출발점 · 지도 열기</div></span>
+          <span class="chev"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M6 3l5 5-5 5"/></svg></span>
+        </a>
+        <a class="row" href="https://www.google.com/maps/search/?api=1&query=河童橋" target="_blank" rel="noopener">
+          <span class="step">5′</span>
+          <span class="tx"><div class="tt">갓파바시 (河童橋)</div><div class="sb">호타카 연봉·아즈사강 대표 뷰</div></span>
+          <span class="chev"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M6 3l5 5-5 5"/></svg></span>
+        </a>
+        <a class="row" href="https://www.google.com/maps/search/?api=1&query=岳沢湿原" target="_blank" rel="noopener">
+          <span class="step">+10′</span>
+          <span class="tx"><div class="tt">다케사와 습원 (岳沢湿原)</div><div class="sb">맑은 용출수 습원, 가볍게</div></span>
+          <span class="chev"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M6 3l5 5-5 5"/></svg></span>
+        </a>
+        <a class="row" href="https://www.google.com/maps/search/?api=1&query=明神池%20上高地" target="_blank" rel="noopener">
+          <span class="step">+60′</span>
+          <span class="tx"><div class="tt">묘진이케 왕복 (明神池)</div><div class="sb">하이라이트 · 편도 60분 · 배관료 약 ¥500</div></span>
+          <span class="chev"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M6 3l5 5-5 5"/></svg></span>
+        </a>
+        <div class="row"><span class="step">END</span><span class="tx"><div class="tt">버스터미널 복귀</div><div class="sb">집합 15분 전까지 · 여유 있게</div></span></div>
+      </div>
+      <p class="note">비 오거나 시간 부족하면 묘진이케 생략 → 갓파바시·다케사와 습원·강변 점심만 여유롭게. 다이쇼이케에서 하차시켜 주면 <a href="https://www.google.com/maps/search/?api=1&query=大正池%20上高地" target="_blank" rel="noopener" style="color:var(--label);text-decoration:underline;">다이쇼이케</a> → 갓파바시 코스가 새벽 빛에 가장 예뻐요.</p>
+
+      <p class="grouphead">맛집 · 먹거리</p>
+      <div class="list">
+        <a class="row" href="https://www.google.com/maps/search/?api=1&query=嘉門次小屋%20上高地" target="_blank" rel="noopener">
+          <span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M6 3v8a2 2 0 0 0 2 2h0v8M8 3v6M6 3v6M18 3c-1.5 0-2.5 2-2.5 5s1 4 2.5 4v9"/></svg></span>
+          <span class="tx"><div class="tt">가몬지 고야 (嘉門次小屋)</div><div class="sb">묘진 · 이와나 숯불구이 정식</div></span>
+          <span class="chev"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M6 3l5 5-5 5"/></svg></span>
+        </a>
+        <a class="row" href="https://www.google.com/maps/search/?api=1&query=上高地食堂" target="_blank" rel="noopener">
+          <span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M6 3v8a2 2 0 0 0 2 2h0v8M8 3v6M6 3v6M18 3c-1.5 0-2.5 2-2.5 5s1 4 2.5 4v9"/></svg></span>
+          <span class="tx"><div class="tt">가미코치 식당 (上高地食堂)</div><div class="sb">버스터미널 · 경식·카레·소바</div></span>
+          <span class="chev"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M6 3l5 5-5 5"/></svg></span>
+        </a>
+        <a class="row" href="https://www.google.com/maps/search/?api=1&query=五千尺キッチン%20上高地" target="_blank" rel="noopener">
+          <span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M6 3v8a2 2 0 0 0 2 2h0v8M8 3v6M6 3v6M18 3c-1.5 0-2.5 2-2.5 5s1 4 2.5 4v9"/></svg></span>
+          <span class="tx"><div class="tt">고센자쿠 키친 (五千尺キッチン)</div><div class="sb">갓파바시 · 경양식·디저트·커피</div></span>
+          <span class="chev"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M6 3l5 5-5 5"/></svg></span>
+        </a>
+        <a class="row" href="https://www.kamikochi.or.jp/" target="_blank" rel="noopener">
+          <span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c2.5 2.5 3.5 6 3.5 9s-1 6.5-3.5 9c-2.5-2.5-3.5-6-3.5-9s1-6.5 3.5-9z"/></svg></span>
+          <span class="tx"><div class="tt">가미코치 공식 안내</div><div class="sb">먹거리·산책·시설 kamikochi.or.jp</div></span>
+          <span class="chev"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M6 3l5 5-5 5"/></svg></span>
+        </a>
+      </div>
+
+      <p class="grouphead">날씨 · 안전</p>
+      <div class="list">
+        <a class="row" href="https://www.jma.go.jp/bosai/nowc/" target="_blank" rel="noopener">
+          <span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M7 15a4 4 0 0 1 .5-8 5 5 0 0 1 9.5 1.5 3.5 3.5 0 0 1-.5 6.5M8 19l-1 2M12 19l-1 2M16 19l-1 2"/></svg></span>
+          <span class="tx"><div class="tt">비구름 레이더 (기상청)</div><div class="sb">당일 아침·현지서 소나기 셀 확인</div></span>
+          <span class="chev"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M6 3l5 5-5 5"/></svg></span>
+        </a>
+        <a class="row" href="https://weathernews.jp/onebox/tenki/spot/landscape/03/4674131/" target="_blank" rel="noopener">
+          <span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><circle cx="12" cy="12" r="4.5"/><path d="M12 2v2M12 20v2M2 12h2M20 12h2M5 5l1.5 1.5M17.5 17.5L19 19M19 5l-1.5 1.5M6.5 17.5L5 19"/></svg></span>
+          <span class="tx"><div class="tt">가미코치 시간별 날씨</div><div class="sb">웨더뉴스</div></span>
+          <span class="chev"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M6 3l5 5-5 5"/></svg></span>
+        </a>
+        <div class="row">
+          <span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M12 3l9 16H3z"/><path d="M12 9v5M12 17h.01"/></svg></span>
+          <span class="tx"><div class="tt">원숭이 주의 · 쓰레기 되가져가기</div><div class="sb">음식 눈에서 떼지 않기 · 국립공원 규칙</div></span>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ TAB 3 : 체크리스트 ============ -->
+    <section class="panel" id="check">
+      <p class="grouphead">준비 상태</p>
+      <div class="progress"><div class="bar"><i id="barfill"></i></div><span id="barpct">0%</span></div>
+
+      <p class="grouphead">준비물</p>
+      <div class="list" id="pack">
+        <div class="chk" data-id="p1"><span class="box"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M3 8.5l3.5 3.5L13 4.5"/></svg></span><span class="lbl">우비 (레인재킷)<span class="s">접이우산보다 나음 · 산은 급변</span></span></div>
+        <div class="chk" data-id="p2"><span class="box"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M3 8.5l3.5 3.5L13 4.5"/></svg></span><span class="lbl">겉옷 한 겹<span class="s">해발 1,500m · 흐리면 서늘</span></span></div>
+        <div class="chk" data-id="p3"><span class="box"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M3 8.5l3.5 3.5L13 4.5"/></svg></span><span class="lbl">물 · 간식</span></div>
+        <div class="chk" data-id="p4"><span class="box"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M3 8.5l3.5 3.5L13 4.5"/></svg></span><span class="lbl">현금<span class="s">매점·식당 현금만 받는 곳 있음</span></span></div>
+        <div class="chk" data-id="p5"><span class="box"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M3 8.5l3.5 3.5L13 4.5"/></svg></span><span class="lbl">예약 확인 · 모바일 티켓</span></div>
+        <div class="chk" data-id="p6"><span class="box"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M3 8.5l3.5 3.5L13 4.5"/></svg></span><span class="lbl">폰 충전 · 보조배터리</span></div>
+        <div class="chk" data-id="p7"><span class="box"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M3 8.5l3.5 3.5L13 4.5"/></svg></span><span class="lbl">편한 · 방수 신발</span></div>
+        <div class="chk" data-id="p8"><span class="box"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M3 8.5l3.5 3.5L13 4.5"/></svg></span><span class="lbl">선크림 · 모자 · 상비약</span></div>
+        <div class="chk" data-id="p9"><span class="box"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M3 8.5l3.5 3.5L13 4.5"/></svg></span><span class="lbl">작은 쓰레기봉투<span class="s">가미코치는 쓰레기 되가져가기</span></span></div>
+      </div>
+
+      <p class="grouphead">당일 일정</p>
+      <div class="list" id="plan">
+        <div class="chk" data-id="s1"><span class="box"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M3 8.5l3.5 3.5L13 4.5"/></svg></span><span class="lbl">05:55 택시 호출 · 호텔 출발</span></div>
+        <div class="chk" data-id="s2"><span class="box"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M3 8.5l3.5 3.5L13 4.5"/></svg></span><span class="lbl">06:15 코쿤타워 앞 도착</span></div>
+        <div class="chk" data-id="s3"><span class="box"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M3 8.5l3.5 3.5L13 4.5"/></svg></span><span class="lbl">06:35 집합 완료 · 접수</span></div>
+        <div class="chk" data-id="s4"><span class="box"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M3 8.5l3.5 3.5L13 4.5"/></svg></span><span class="lbl">도착 후 복귀 집합시각 확인<span class="s">가장 먼저 할 것</span></span></div>
+        <div class="chk" data-id="s5"><span class="box"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M3 8.5l3.5 3.5L13 4.5"/></svg></span><span class="lbl">갓파바시 · 묘진이케 산책</span></div>
+        <div class="chk" data-id="s6"><span class="box"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M3 8.5l3.5 3.5L13 4.5"/></svg></span><span class="lbl">집합 15분 전 버스터미널 복귀</span></div>
+      </div>
+
+      <div class="resetwrap"><button class="reset" id="reset">전체 초기화</button></div>
+    </section>
+
+    <p class="footer">HIS AK010 · 上高地フリータイム · 2026.07.25(土)<br>시각·집합장소는 투어 안내를 최종 확인하세요</p>
+  </main>
+
+  <!-- ============ Tab bar ============ -->
+  <nav>
+    <button class="tab active" data-tab="move">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M9 4L4 6.5v13L9 17l6 2.5 5-2.5v-13L15 6.5 9 4zM9 4v13M15 6.5v13"/></svg>
+      <span>이동</span>
+    </button>
+    <button class="tab" data-tab="kamikochi">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M3 19h18L14 7l-3.2 5.4L8.5 9 3 19z"/><path d="M12.2 10.2L14 7"/></svg>
+      <span>가미코치</span>
+    </button>
+    <button class="tab" data-tab="check">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><rect x="4" y="3" width="16" height="18" rx="2.5"/><path d="M8.5 9l1.5 1.5L13 7M8.5 15l1.5 1.5L13 13"/></svg>
+      <span>체크리스트</span>
+    </button>
+  </nav>
+
+</div>
+
+<script>
+(function(){
+  // ---- Tabs ----
+  var tabs=document.querySelectorAll('.tab');
+  var panels=document.querySelectorAll('.panel');
+  var main=document.querySelector('main');
+  tabs.forEach(function(t){
+    t.addEventListener('click',function(){
+      tabs.forEach(function(x){x.classList.remove('active');});
+      panels.forEach(function(p){p.classList.remove('active');});
+      t.classList.add('active');
+      var p=document.getElementById(t.dataset.tab);
+      if(p){p.classList.add('active');}
+      if(main){main.scrollTo({top:0,behavior:'auto'});}
+    });
+  });
+
+  // ---- Checklist w/ persistence ----
+  var KEY='kamikochi_checks_v1';
+  var state={};
+  try{ state=JSON.parse(localStorage.getItem(KEY)||'{}')||{}; }catch(e){ state={}; }
+
+  var checks=document.querySelectorAll('.chk');
+  function save(){ try{ localStorage.setItem(KEY,JSON.stringify(state)); }catch(e){} }
+  function updateBar(){
+    var total=checks.length, done=0;
+    checks.forEach(function(c){ if(c.classList.contains('done')) done++; });
+    var pct=total?Math.round(done/total*100):0;
+    var f=document.getElementById('barfill'), p=document.getElementById('barpct');
+    if(f) f.style.width=pct+'%';
+    if(p) p.textContent=pct+'%';
+  }
+  checks.forEach(function(c){
+    var id=c.dataset.id;
+    if(state[id]) c.classList.add('done');
+    c.addEventListener('click',function(){
+      c.classList.toggle('done');
+      state[id]=c.classList.contains('done');
+      save(); updateBar();
+    });
+  });
+  updateBar();
+
+  var reset=document.getElementById('reset');
+  if(reset){
+    reset.addEventListener('click',function(){
+      checks.forEach(function(c){ c.classList.remove('done'); });
+      state={}; save(); updateBar();
+    });
+  }
+})();
+</script>
+</body>
+</html>
